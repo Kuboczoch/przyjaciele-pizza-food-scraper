@@ -1,0 +1,65 @@
+{
+  "name": "cafe-planet-scraper",
+  "version": "1.0.0",
+  "description": "Give me my lunch",
+  "keywords": [
+    "lunch"
+  ],
+  "author": {
+    "name": "Kuboczoch"
+  },
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kuboczoch/cafe-planet-scraper.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run lint && tsc",
+    "build-and-start": "npm run build && node ./dist/index",
+    "changelog": "conventional-changelog -p angular -u",
+    "changelog:update": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "clean": "(rimraf -r ./.nyc_output || true) && (rimraf -r ./coverage || true) && (rimraf -r ./dist || true)",
+    "cover": "nyc npm run test",
+    "cover:check": "nyc --check-coverage npm run test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint --ext .ts --fix src/**/*.ts",
+    "preversion": "npm run build && npm run cover:check",
+    "postversion": "git push && git push --tags",
+    "prepare": "npm run build",
+    "upgrade": "npx npm-check -u",
+    "version": "npm run build && npm run changelog:update"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.4.13",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "chai": "^4.1.2",
+    "conventional-changelog-cli": "^2.0.12",
+    "coveralls": "^3.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^8.2.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^9.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "source-map-support": "^0.5.12",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "facebookgraph": "^0.4.0",
+    "puppeteer": "^14.1.0",
+    "puppeteer-core": "^14.1.0",
+    "puppeteer-select": "^1.0.3",
+    "sitka": "^1.0.5",
+    "sizzle": "^2.3.6"
+  }
+}

@@ -20,7 +20,8 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run lint && tsc",
-    "build-and-start": "npm run build && node ./dist/index",
+    "start": "node ./dist/index",
+    "build-and-start": "npm run build && npm run start",
     "changelog": "conventional-changelog -p angular -u",
     "changelog:update": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "clean": "(rimraf -r ./.nyc_output || true) && (rimraf -r ./coverage || true) && (rimraf -r ./dist || true)",

@@ -1,11 +1,11 @@
 import puppeteer from 'puppeteer'
 
-import delay from './utils/delay'
 import clickCookies from './clickCookies'
 
 const main = async () => {
   const browser = await puppeteer.launch({
     headless: true,
+    args: ['--no-sandbox'],
   })
   const page = await browser.newPage()
   await page.goto('https://www.facebook.com/CafePlanetWierna/', {
@@ -15,8 +15,7 @@ const main = async () => {
     width: 1200,
     height: 800,
   })
-
-  await delay(500)
+  await page.screenshot({ path: 'screen.png' })
   await clickCookies(page)
 
   await page.evaluate(`(async() => {

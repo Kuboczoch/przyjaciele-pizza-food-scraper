@@ -1,9 +1,10 @@
 import type puppeteer from 'puppeteer'
-import delay from './utils/delay'
+import delay from '../delay'
 
 const clickCookies = async (page: puppeteer.Page) => {
-  await delay(5000)
   try {
+    // Await for the cookie popup to appear
+    await delay(5000)
     await page.click(
       'div[role="dialog"] > div:not(:first-child) > div > div:not(:first-child) div[role="button"]',
     )

@@ -14,11 +14,6 @@ const auth = () => {
     !GOOGLE_PROJECT_NUMBER ||
     !GOOGLE_CALENDAR_ID
   ) {
-    console.error(process.env.GOOGLE_SCOPE)
-    console.error(process.env.GOOGLE_PRIVATE_KEY)
-    console.error(process.env.GOOGLE_CLIENT_EMAIL)
-    console.error(process.env.GOOGLE_PROJECT_NUMBER)
-    console.error(process.env.GOOGLE_CALENDAR_ID)
     throw new Error(`Google API not configured`)
   }
 

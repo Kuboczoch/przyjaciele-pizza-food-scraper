@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 import format from 'date-fns/format'
 
-require('dotenv').config()
+require('dotenv').config({ path: '.env' })
 
 import clickCookies from './utils/facebook/clickCookies'
 import getLatestPost from './utils/facebook/getLatestPost'

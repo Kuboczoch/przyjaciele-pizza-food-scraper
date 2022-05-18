@@ -1,7 +1,7 @@
 import { google } from 'googleapis'
 
 const auth = () => {
-  const SCOPES = process.env.GOOGLE_SCROPE
+  const SCOPES = process.env.GOOGLE_SCOPE
   const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY
   const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
   const GOOGLE_PROJECT_NUMBER = process.env.GOOGLE_PROJECT_NUMBER
@@ -14,7 +14,12 @@ const auth = () => {
     !GOOGLE_PROJECT_NUMBER ||
     !GOOGLE_CALENDAR_ID
   ) {
-    throw new Error('Google API not configured')
+    console.error(process.env.GOOGLE_SCOPE)
+    console.error(process.env.GOOGLE_PRIVATE_KEY)
+    console.error(process.env.GOOGLE_CLIENT_EMAIL)
+    console.error(process.env.GOOGLE_PROJECT_NUMBER)
+    console.error(process.env.GOOGLE_CALENDAR_ID)
+    throw new Error(`Google API not configured`)
   }
 
   const auth = new google.auth.GoogleAuth({

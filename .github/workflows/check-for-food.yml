@@ -1,1 +1,56 @@
-name: Check for foodon:  schedule:    - cron: '0 8,10 * * *'  push:    branches: [ master ]jobs:  install-dependencies:    name: Equip binoculars    runs-on: ubuntu-latest    container: lironavon/docker-puppeteer-container:14.16.0    steps:      - name: Checkout Repo        uses: actions/checkout@v2      - uses: actions/setup-node@v3        with:          node-version: 16      - name: Install Dependencies        run: yarn install --frozen-lockfile      - name: Cache node_modules        uses: actions/cache@v2        with:          path: '**/node_modules'          key: modules-${{ hashFiles('yarn.lock') }}  run-project:    name: Lookout for food    runs-on: ubuntu-latest    container: lironavon/docker-puppeteer-container:14.16.0    env:      CI: true    needs: install-dependencies    steps:      - name: Checkout Repo        uses: actions/checkout@v2      - uses: actions/setup-node@v3        with:          node-version: 16      - name: Cache node_modules        uses: actions/cache@v2        with:          path: '**/node_modules'          key: modules-${{ hashFiles('yarn.lock') }}      - name: 'Create env file'        run: |          touch .env          echo FACEBOOK_PAGE_URL=${{ secrets.FACEBOOK_PAGE_URL }} >> .env          echo GOOGLE_SCOPE=${{ secrets.GOOGLE_SCOPE }} >> .env          echo GOOGLE_PRIVATE_KEY=${{ secrets.GOOGLE_PRIVATE_KEY }} >> .env          echo GOOGLE_CLIENT_EMAIL=${{ secrets.GOOGLE_CLIENT_EMAIL }} >> .env          echo GOOGLE_PROJECT_NUMBER=${{ secrets.GOOGLE_PROJECT_NUMBER }} >> .env          echo GOOGLE_CALENDAR_ID=${{ secrets.GOOGLE_CALENDAR_ID }} >> .env      - name: Build        run: yarn build      - name: Run        run: yarn start
+name: Check for food
+on:
+  schedule:
+    - cron: '0 8,10 * * *'
+  push:
+    branches: [ master ]
+
+jobs:
+  install-dependencies:
+    name: Equip binoculars
+    runs-on: ubuntu-latest
+    container: lironavon/docker-puppeteer-container:14.16.0
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: modules-${{ hashFiles('yarn.lock') }}
+  run-project:
+    name: Lookout for food
+    runs-on: ubuntu-latest
+    container: lironavon/docker-puppeteer-container:14.16.0
+    env:
+      CI: true
+    needs: install-dependencies
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: modules-${{ hashFiles('yarn.lock') }}
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo FACEBOOK_PAGE_URL=${{ secrets.FACEBOOK_PAGE_URL }} >> .env
+          echo GOOGLE_SCOPE=${{ secrets.GOOGLE_SCOPE }} >> .env
+          echo GOOGLE_PRIVATE_KEY=${{ secrets.GOOGLE_PRIVATE_KEY }} >> .env
+          echo GOOGLE_CLIENT_EMAIL=${{ secrets.GOOGLE_CLIENT_EMAIL }} >> .env
+          echo GOOGLE_PROJECT_NUMBER=${{ secrets.GOOGLE_PROJECT_NUMBER }} >> .env
+          echo GOOGLE_CALENDAR_ID=${{ secrets.GOOGLE_CALENDAR_ID }} >> .env
+      - name: Build
+        run: yarn build
+      - name: Run
+        run: yarn start

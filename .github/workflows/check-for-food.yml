@@ -1,7 +1,7 @@
 name: Check for food
 on:
   schedule:
-    - cron: '0 8,10 * * *'
+    - cron: '0 8,10 * * 1,2,3,4,5'
   push:
     branches: [ master ]
 
@@ -54,3 +54,8 @@ jobs:
         run: yarn build
       - name: Run
         run: yarn start
+      - name: Save records
+        uses: actions/upload-artifact@v3
+        with:
+          name: records
+          path: records/

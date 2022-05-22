@@ -11,8 +11,8 @@ const getCalendarLunches = async (
   return googleAuth.calendar.events.list({
     calendarId: googleAuth.GOOGLE_CALENDAR_ID,
     orderBy: 'startTime',
-    timeMin: startOfWeek(new Date()).toISOString(),
-    timeMax: endOfWeek(new Date()).toISOString(),
+    timeMin: startOfWeek(new Date(), { weekStartsOn: 1 }).toISOString(),
+    timeMax: endOfWeek(new Date(), { weekStartsOn: 1 }).toISOString(),
     singleEvents: true,
     maxResults: 10,
   })

@@ -1,5 +1,7 @@
 import type { TLunchMenu } from '../../types/lunch'
 import { WEEK_DAYS, weekDays } from '../../types/lunch'
+import add from 'date-fns/add'
+import isSameWeek from 'date-fns/isSameWeek'
 
 /**
  * @param text for example 20.05
@@ -10,8 +12,16 @@ const _daysToDate = (text: string): Date => {
   if (!day || !month) {
     throw new Error('Invalid date provided')
   }
+
   const year = new Date().getFullYear()
-  return new Date(`${year}-${month}-${day}`)
+  let newDate = new Date(`${year}-${month}-${day}`)
+
+  const today = new Date()
+  // Usually they are shifting their menu max by the whole week
+  if (!isSameWeek(newDate, today, { weekStartsOn: 1 })) {
+    newDate = add(newDate, { days: 7 })
+  }
+  return newDate
 }
 
 const menuMapper = (menu: string): TLunchMenu => {

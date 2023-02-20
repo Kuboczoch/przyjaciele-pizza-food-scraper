@@ -7,6 +7,7 @@ export const calendarLunchSummary = 'Przyjaciele Pizza & Food Lunch'
 
 const lunchToCalendarEventMapper = (
   lunch: TLunch,
+  props?: calendar_v3.Schema$Event,
 ): calendar_v3.Schema$Event => {
   return {
     summary: calendarLunchSummary,
@@ -23,6 +24,7 @@ const lunchToCalendarEventMapper = (
       useDefault: false,
       overrides: [{ method: 'popup', minutes: 1 }],
     },
+    ...props,
   }
 }
 

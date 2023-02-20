@@ -8,15 +8,21 @@ const getLatestPost = async (page: puppeteer.Page) => {
     )].find((element) => element.textContent === 'See more').click()
   })()`)
 
-    const element = await page.$(
+    const postText = await page.$(
       'div[role="article"] div[data-ad-comet-preview]',
     )
 
-    if (!element) {
+    if (!postText) {
       throw new Error()
     }
 
-    return element
+    const postImage =
+      (await page.$('div[role="article"] a[href*="photo"] img')) ?? null
+
+    return {
+      postImage,
+      postText,
+    }
   } catch (e) {
     throw new Error('Cannot find latest article')
   }

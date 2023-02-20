@@ -1,13 +1,10 @@
 import puppeteer from 'puppeteer'
-import format from 'date-fns/format'
 
 require('dotenv').config({ path: '.env' })
 
 import clickCookies from './utils/facebook/clickCookies'
 import getLatestPost from './utils/facebook/getLatestPost'
-import menuMapper from './utils/mappers/menuMapper'
 import auth from './utils/googleapi/auth'
-import type { TLunchMenu } from './types/lunch'
 import lunchToCalendarEventMapper from './utils/mappers/lunchToCalendarEventMapper'
 import delay from './utils/delay'
 import getCalendarLunches from './utils/googleapi/getCalendarLunches'
@@ -48,13 +45,16 @@ const main = async () => {
   })
 
   await clickCookies(page)
-  const element = await getLatestPost(page)
+  const { postText, postImage } = await getLatestPost(page)
   // Get element's textContent, it will parse literally everything into one string.
   // Emoticons are ignored
   const value: string | undefined = await page.evaluate(
     (el) => el.textContent,
-    element,
+    postText,
   )
+  const imageSrc =
+    (await postImage?.evaluate((image) => image.getAttribute('src'))) ?? null
+
   if (!value) {
     throw new Error('No text found in the latest article')
   }
@@ -111,7 +111,10 @@ const main = async () => {
       // }
       numberOfAddedLunches = numberOfAddedLunches + 1
 
-      const event = lunchToCalendarEventMapper(_lunch)
+      const event = lunchToCalendarEventMapper(_lunch, {
+        description: `${_lunch.description}\n${imageSrc ?? ''}`,
+      })
+
       googleAuth.calendar.events.insert({
         auth: googleClient,
         calendarId: googleAuth.GOOGLE_CALENDAR_ID,

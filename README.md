@@ -1,7 +1,7 @@
-# Cafe planet scraper
+# Przyjaciele pizza & food scraper
+
+My local restaurant lunch menu scraper
 
 ---
 
-My local café lunch menu scraper
-
-I forgot too many times about these lunches, and they are very good
+Project forked from https://github.com/Kuboczoch/cafe-planet-scraper

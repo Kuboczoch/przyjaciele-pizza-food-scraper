@@ -1,5 +1,5 @@
 {
-  "name": "cafe-planet-scraper",
+  "name": "przyjaciele-pizza-food-scrapper",
   "version": "1.0.0",
   "description": "Give me my lunch",
   "keywords": [
@@ -11,7 +11,7 @@
   "license": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kuboczoch/cafe-planet-scraper.git"
+    "url": "https://github.com/Kuboczoch/przyjaciele-pizza-food-scrapper"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "dist/"
   ],
   "scripts": {
-    "build": "npm run clean && npm run lint && tsc",
+    "build": "npm run clean && tsc",
     "start": "node ./dist/index",
     "build-and-start": "npm run build && npm run start",
     "changelog": "conventional-changelog -p angular -u",

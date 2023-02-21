@@ -1,5 +1,5 @@
-import startOfWeek from 'date-fns/startOfWeek'
-import endOfWeek from 'date-fns/endOfWeek'
+import startOfToday from 'date-fns/startOfToday'
+import endOfToday from 'date-fns/endOfToday'
 
 import type auth from './auth'
 import type { GaxiosPromise } from 'googleapis-common'
@@ -11,8 +11,8 @@ const getCalendarLunches = async (
   return googleAuth.calendar.events.list({
     calendarId: googleAuth.GOOGLE_CALENDAR_ID,
     orderBy: 'startTime',
-    timeMin: startOfWeek(new Date(), { weekStartsOn: 1 }).toISOString(),
-    timeMax: endOfWeek(new Date(), { weekStartsOn: 1 }).toISOString(),
+    timeMin: startOfToday().toISOString(),
+    timeMax: endOfToday().toISOString(),
     singleEvents: true,
     maxResults: 10,
   })

@@ -1,7 +1,7 @@
 name: Check for food
 on:
   schedule:
-    - cron: '0 12 * * 1-5'
+    - cron: '0,10 11 * * 1-5'
   push:
     branches: [ master ]
 

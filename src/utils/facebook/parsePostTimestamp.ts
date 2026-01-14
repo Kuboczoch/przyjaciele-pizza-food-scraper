@@ -15,7 +15,7 @@ const parsePostTimestamp = (
   }
 
   // Check for hours ago (e.g., "22h", "1h ago", "1h")
-  const hoursMatch = trimmedText.match(/^(\d+)\s*h/)
+  const hoursMatch = trimmedText.match(/^(\d+)\s*h(?:\s+ago)?$/i)
   if (hoursMatch) {
     const hours = parseInt(hoursMatch[1], 10)
     // Consider posts fresh if they are from today (less than 24 hours and still same day context)
@@ -25,7 +25,7 @@ const parsePostTimestamp = (
   }
 
   // Check for minutes ago (e.g., "1m ago", "1m", "30m")
-  const minutesMatch = trimmedText.match(/^(\d+)\s*m/)
+  const minutesMatch = trimmedText.match(/^(\d+)\s*m(?:\s+ago)?$/i)
   if (minutesMatch) {
     return { isFresh: true, timeAgo: trimmedText }
   }
@@ -36,7 +36,7 @@ const parsePostTimestamp = (
   }
 
   // Check for days ago (e.g., "2d ago", "2d")
-  const daysMatch = trimmedText.match(/^(\d+)\s*d/)
+  const daysMatch = trimmedText.match(/^(\d+)\s*d(?:\s+ago)?$/i)
   if (daysMatch) {
     return { isFresh: false, timeAgo: trimmedText }
   }

@@ -62,7 +62,7 @@ const main = async () => {
   } else {
     console.warn('Could not find post timestamp, proceeding with caution...')
   }
-  
+
   // Get element's textContent, it will parse literally everything into one string.
   // Emoticons are ignored
   const value: string | undefined = await page.evaluate(

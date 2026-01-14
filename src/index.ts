@@ -93,7 +93,7 @@ const main = async () => {
     mappedMenu = {
       [_weekDay]: {
         date: new Date(),
-        description: value.slice(57).split('  Na miejscu')[0], // calculated offset, it should be somewhat automatic
+        description: value,
       },
     }
   } catch (e) {

@@ -4,6 +4,7 @@ require('dotenv').config({ path: '.env' })
 
 import clickCookies from './utils/facebook/clickCookies'
 import getLatestPost from './utils/facebook/getLatestPost'
+import parsePostTimestamp from './utils/facebook/parsePostTimestamp'
 import auth from './utils/googleapi/auth'
 import lunchToCalendarEventMapper from './utils/mappers/lunchToCalendarEventMapper'
 import delay from './utils/delay'
@@ -45,7 +46,23 @@ const main = async () => {
   })
 
   await clickCookies(page)
-  const { postText, postImage } = await getLatestPost(page)
+  const { postText, postImage, postTimestamp } = await getLatestPost(page)
+  
+  // Check if the post is fresh (posted today)
+  if (postTimestamp) {
+    const { isFresh, timeAgo } = parsePostTimestamp(postTimestamp)
+    console.log(`Post timestamp: ${timeAgo}`)
+    
+    if (!isFresh) {
+      console.log('Post is not fresh (not from today). Skipping...')
+      await browser.close()
+      return 0
+    }
+    console.log('Post is fresh, proceeding with scraping...')
+  } else {
+    console.warn('Could not find post timestamp, proceeding with caution...')
+  }
+  
   // Get element's textContent, it will parse literally everything into one string.
   // Emoticons are ignored
   const value: string | undefined = await page.evaluate(
